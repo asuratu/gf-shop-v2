@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "shop/boot/time"
 	"shop/internal/cmd"
 	_ "shop/internal/logic"
 	_ "shop/internal/packed"

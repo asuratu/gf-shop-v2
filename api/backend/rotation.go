@@ -21,3 +21,13 @@ type RotationDeleteReq struct {
 	Id     uint `json:"id" v:"required#请选择需要删除的轮播图" dc:"轮播图id"`
 }
 type RotationDeleteRes struct{}
+
+// RotationUpdateReq 修改轮播图
+type RotationUpdateReq struct {
+	g.Meta `path:"/rotations/{id}" tags:"Rotation" method:"put" summary:"修改轮播图"`
+	Id     uint   `json:"id" v:"required#请选择需要修改的轮播图" dc:"轮播图id"`
+	PicUrl string `json:"pic_url" v:"required#图片不能为空" dc:"轮播图地址"`
+	Link   string `json:"link" v:"required#跳转链接不能为空" dc:"跳转链接"`
+	Sort   uint   `json:"sort" dc:"排序"`
+}
+type RotationUpdateRes struct{}
