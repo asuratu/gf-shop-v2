@@ -5,6 +5,7 @@ import (
 
 	"github.com/gogf/gf/v2/database/gdb"
 
+	"shop/internal/consts"
 	"shop/internal/dao"
 	"shop/internal/model"
 	"shop/internal/service"
@@ -62,4 +63,48 @@ func (s *sRotation) Update(ctx context.Context, in model.RotationUpdateInput) er
 			Update()
 		return err
 	})
+}
+
+// GetList 轮播图列表
+func (s *sRotation) GetList(ctx context.Context, in model.RotationPageListInput) (out *model.RotationPageListOutput, err error) {
+	// 1. 获得*gdb.Model对象，方面后续调用
+	m := dao.RotationInfo.Ctx(ctx)
+
+	// 2. 实例化响应结构体
+	out = &model.RotationPageListOutput{
+		Page: in.Page,
+		Size: in.Size,
+	}
+
+	switch in.Sort {
+	case consts.OrderByIdAsc:
+		m = m.OrderAsc(dao.RotationInfo.Columns().Id)
+	case consts.OrderByIdDesc:
+		m = m.OrderDesc(dao.RotationInfo.Columns().Id)
+	}
+
+	// 3. 分页查询
+	listModel := m.Page(in.Page, in.Size)
+
+	// 4. 再查询count，判断有无数据
+	out.Total, err = m.Count()
+	if err != nil || out.Total == 0 {
+		return out, err
+	}
+
+	// 查询总条数
+	if out.Total, err = m.Count(); err != nil || out.Total == 0 {
+		return out, err
+	}
+
+	// 5. 延迟初始化list切片 确定有数据，再按期望大小初始化切片容量
+	out.List = make([]model.RotationPageListOutputItem, 0, in.Size)
+
+	// 6.把查询到的结果赋值到响应结构体中
+	if err := listModel.Scan(&out.List); err != nil {
+		return out, err
+	}
+
+	return
+
 }

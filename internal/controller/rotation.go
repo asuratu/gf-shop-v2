@@ -51,3 +51,25 @@ func (a *cRotation) Update(ctx context.Context, req *backend.RotationUpdateReq) 
 	}
 	return &backend.RotationUpdateRes{}, nil
 }
+
+// Index 轮播图列表
+func (a *cRotation) Index(ctx context.Context, req *backend.RotationPageListReq) (res *backend.RotationPageListRes, err error) {
+	list, err := service.Rotation().GetList(ctx, model.RotationPageListInput{
+		Sort: req.Sort,
+		Page: req.Page,
+		Size: req.Size,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+	return &backend.RotationPageListRes{
+		CommonPaginationRes: backend.CommonPaginationRes{
+			List:  list.List,
+			Total: list.Total,
+			Page:  list.Page,
+			Size:  list.Size,
+		},
+	}, nil
+
+}
