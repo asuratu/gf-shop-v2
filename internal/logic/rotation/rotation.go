@@ -3,6 +3,8 @@ package rotation
 import (
 	"context"
 
+	"github.com/gogf/gf/v2/database/gdb"
+
 	"shop/internal/dao"
 	"shop/internal/model"
 	"shop/internal/service"
@@ -20,7 +22,7 @@ func New() *sRotation {
 	return &sRotation{}
 }
 
-// Create 创建内容
+// Create 添加轮播图
 func (s *sRotation) Create(ctx context.Context, in model.RotationCreateInput) (out model.RotationCreateOutput, err error) {
 	// 不允许HTML代码
 	if err = ghtml.SpecialCharsMapOrStruct(in); err != nil {
@@ -31,4 +33,13 @@ func (s *sRotation) Create(ctx context.Context, in model.RotationCreateInput) (o
 		return out, err
 	}
 	return model.RotationCreateOutput{RotationId: uint(lastInsertID)}, err
+}
+
+// Delete 删除轮播图
+func (s *sRotation) Delete(ctx context.Context, id uint) error {
+	return dao.RotationInfo.Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
+		// 删除轮播图
+		_, err := dao.RotationInfo.Ctx(ctx).Where(dao.RotationInfo.Columns().Id, id).Unscoped().Delete()
+		return err
+	})
 }

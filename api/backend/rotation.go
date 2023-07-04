@@ -4,6 +4,7 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 )
 
+// RotationReq 添加轮播图
 type RotationReq struct {
 	g.Meta `path:"/rotations" tags:"Rotation" method:"post" summary:"添加轮播图"`
 	PicUrl string `json:"pic_url" v:"required#图片不能为空" dc:"轮播图地址"`
@@ -13,3 +14,10 @@ type RotationReq struct {
 type RotationRes struct {
 	RotationId uint `json:"rotation_id"`
 }
+
+// RotationDeleteReq 删除轮播图
+type RotationDeleteReq struct {
+	g.Meta `path:"/rotations/{id}" tags:"Rotation" method:"delete" summary:"删除轮播图"`
+	Id     uint `json:"id" v:"required#请选择需要删除的轮播图" dc:"轮播图id"`
+}
+type RotationDeleteRes struct{}

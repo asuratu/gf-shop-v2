@@ -14,6 +14,7 @@ main.exe
 output/
 manifest/output/
 temp/
+tmp/
 temp.yaml
 bin
 
