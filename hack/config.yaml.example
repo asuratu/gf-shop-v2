@@ -1,0 +1,24 @@
+
+# CLI tool, only in development environment.
+# https://goframe.org/pages/viewpage.action?pageId=3673173
+gfcli:
+  docker:
+    build: "-a amd64 -s linux -p temp -ew"
+    tagPrefixes:
+      - my.image.pub/my-app
+
+  # 工具编译配置
+  build:
+    name: "shop"
+    arch: "amd64"
+    system: "linux,darwin,windows"
+    mod: ""
+    cgo: 0
+
+  # dao生成
+  gen:
+    dao:
+      - link: "mysql:root:@tcp(127.0.0.1:3306)/gf-shop-v2"
+        removePrefix: "gf_"
+        descriptionTag: true
+        noModelComment: true

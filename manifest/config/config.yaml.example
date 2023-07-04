@@ -1,0 +1,28 @@
+server:
+  address:     ":8199"
+  openapiPath: "/api.json"
+  swaggerPath: "/swagger"
+
+logger:
+  level : "all"
+  stdout: true
+
+# 数据库连接配置
+database:
+  logger:
+    path:    "logs/sql"
+    level:   "all"
+    stdout:  true
+    ctxKeys: ["RequestId"]
+
+  default:
+    link:   "mysql:root:@tcp(127.0.0.1:3306)/gf-shop-v2"
+    debug:  true
+
+# Redis 配置示例
+redis:
+  default:
+    address: 127.0.0.1:6379
+    db: 1
+    pass:
+    idleTimeout: 600
