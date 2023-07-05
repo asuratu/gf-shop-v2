@@ -32,6 +32,7 @@ var (
 					}
 					group.Bind(
 						controller.Rotation, // 轮播图
+						controller.Position, // 手工位
 					)
 				})
 			})
