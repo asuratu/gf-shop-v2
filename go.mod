@@ -5,6 +5,7 @@ go 1.20
 require (
 	github.com/gogf/gf/contrib/drivers/mysql/v2 v2.4.4
 	github.com/gogf/gf/v2 v2.4.4
+	github.com/golang-module/carbon/v2 v2.2.3
 	github.com/qiniu/go-sdk/v7 v7.17.0
 )
 
@@ -30,5 +31,5 @@ require (
 	golang.org/x/sync v0.0.0-20220722155255-886fb9371eb4 // indirect
 	golang.org/x/sys v0.4.0 // indirect
 	golang.org/x/text v0.6.0 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

@@ -22,24 +22,24 @@ import (
 	"github.com/gogf/gf/v2/util/gconv"
 )
 
-// 密码加密
+// EncryptPassword 密码加密
 func EncryptPassword(password, salt string) string {
 	return gmd5.MustEncryptString(gmd5.MustEncryptString(password) + gmd5.MustEncryptString(salt))
 }
 
-// 时间戳转 yyyy-MM-dd HH:mm:ss
+// TimeStampToDateTime 时间戳转 yyyy-MM-dd HH:mm:ss
 func TimeStampToDateTime(timeStamp int64) string {
 	tm := gtime.NewFromTimeStamp(timeStamp)
 	return tm.Format("Y-m-d H:i:s")
 }
 
-// 时间戳转 yyyy-MM-dd
+// TimeStampToDate 时间戳转 yyyy-MM-dd
 func TimeStampToDate(timeStamp int64) string {
 	tm := gtime.NewFromTimeStamp(timeStamp)
 	return tm.Format("Y-m-d")
 }
 
-// 获取当前请求接口域名
+// GetDomain 获取当前请求接口域名
 func GetDomain(r *ghttp.Request) (string, error) {
 	pathInfo, err := gurl.ParseURL(r.GetUrl(), -1)
 	if err != nil {
@@ -55,7 +55,7 @@ func GetUserAgent(ctx context.Context) string {
 	return ghttp.RequestFromCtx(ctx).Header.Get("User-Agent")
 }
 
-// 获取客户端IP
+// GetClientIp 获取客户端IP
 func GetClientIp(r *ghttp.Request) string {
 	ip := r.Header.Get("X-Forwarded-For")
 	if ip == "" {
@@ -64,7 +64,7 @@ func GetClientIp(r *ghttp.Request) string {
 	return ip
 }
 
-// 服务端ip
+// GetLocalIP 服务端ip
 func GetLocalIP() (ip string, err error) {
 	addrs, err := net.InterfaceAddrs()
 	if err != nil {
@@ -86,7 +86,7 @@ func GetLocalIP() (ip string, err error) {
 	return
 }
 
-// 获取ip所属城市
+// GetCityByIp 获取ip所属城市
 func GetCityByIp(ip string) string {
 	if ip == "" {
 		return ""
@@ -206,7 +206,7 @@ func ParseDSN(cfg *gdb.ConfigNode) (err error) {
 	return
 }
 
-// 获取附件真实路径
+// GetRealFilesUrl 获取附件真实路径
 func GetRealFilesUrl(r *ghttp.Request, path string) (realPath string, err error) {
 	if gstr.ContainsI(path, "http") {
 		realPath = path
@@ -220,19 +220,19 @@ func GetRealFilesUrl(r *ghttp.Request, path string) (realPath string, err error)
 	return
 }
 
-// 获取附件相对路径
+// GetFilesPath 获取附件相对路径
 func GetFilesPath(fileUrl string) (path string, err error) {
-	gvar_type, err := g.Cfg().Get(context.Background(), "upload.type")
+	gvarType, err := g.Cfg().Get(context.Background(), "upload.type")
 	if err != nil {
 		return "", err
 	}
-	upType := gstr.ToLower(gvar_type.String())
+	upType := gstr.ToLower(gvarType.String())
 
-	gvar_UpPath, err := g.Cfg().Get(context.Background(), "upload.local.UpPath")
+	gvarUppath, err := g.Cfg().Get(context.Background(), "upload.local.UpPath")
 	if err != nil {
 		return "", err
 	}
-	upPath := gstr.Trim(gvar_UpPath.String(), "/")
+	upPath := gstr.Trim(gvarUppath.String(), "/")
 	if upType != "local" || (upType == "local" && !gstr.ContainsI(fileUrl, upPath)) {
 		path = fileUrl
 		return
@@ -250,7 +250,7 @@ func GetFilesPath(fileUrl string) (path string, err error) {
 	return
 }
 
-// 货币转化为分
+// CurrencyLong 货币转化为分
 func CurrencyLong(currency interface{}) int64 {
 	strArr := gstr.Split(gconv.String(currency), ".")
 	switch len(strArr) {
@@ -267,39 +267,29 @@ func CurrencyLong(currency interface{}) int64 {
 	return 0
 }
 
-//func GetExcPath() string {
-//	file, _ := exec.LookPath(os.Args[0])
-//	// 获取包含可执行文件名称的路径
-//	path, _ := filepath.Abs(file)
-//	// 获取可执行文件所在目录
-//	index := strings.LastIndex(path, string(os.PathSeparator))
-//	ret := path[:index]
-//	return strings.Replace(ret, "\\", "/", -1)
-//}
-
-// 流水号
+// CreateLogSn 流水号
 func CreateLogSn(prefix string) string {
-	rand.Seed(time.Now().UnixNano())
-	return prefix + strings.Replace(time.Now().Format("20060102150405.000"), ".", "", -1) + strconv.Itoa(rand.Intn(899)+100)
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	return prefix + strings.Replace(time.Now().Format("20060102150405.000"), ".", "", -1) + strconv.Itoa(r.Intn(899)+100)
 }
 
-// 获取随机整数
+// RandInt 获取随机整数
 func RandInt(max int) int {
-	rand.Seed(time.Now().UnixNano())
-	return rand.Intn(max)
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	return r.Intn(max)
 }
 
-//获取今天的开始时间 0点
-//gtime.New(time.Now()).StartOfDay()
+// 获取今天的开始时间 0点
+// gtime.New(time.Now()).StartOfDay()
 
-//获取今天的结束时间 24点
-//gtime.New(time.Now()).EndOfDay()
+// 获取今天的结束时间 24点
+// gtime.New(time.Now()).EndOfDay()
 
-//日期范围查询
-//whereCondition.Set(dao.UserInfo.Columns.CreatedAt+" >=", gtime.New(req.Date).StartOfDay())
-//whereCondition.Set(dao.UserInfo.Columns.CreatedAt+" <=", gtime.New(req.Date).EndOfDay())
+// 日期范围查询
+// whereCondition.Set(dao.UserInfo.Columns.CreatedAt+" >=", gtime.New(req.Date).StartOfDay())
+// whereCondition.Set(dao.UserInfo.Columns.CreatedAt+" <=", gtime.New(req.Date).EndOfDay())
 
-// 生成最近一周的日期
+// GetRecent7Date 生成最近一周的日期
 func GetRecent7Date() (dates []string) {
 	gt := gtime.New(time.Now())
 	dates = []string{
@@ -314,7 +304,7 @@ func GetRecent7Date() (dates []string) {
 	return
 }
 
-// 获取一周前的日期
+// GetBefore7Date 获取一周前的日期
 func GetBefore7Date() (date string) {
 	gt := gtime.New(time.Now())
 	date = gt.Add(-gtime.D * 6).Format("Y-m-d")
@@ -322,13 +312,13 @@ func GetBefore7Date() (date string) {
 }
 
 func GetOrderNum() (number string) {
-	rand.Seed(time.Now().UnixNano())
-	number = gconv.String(time.Now().UnixNano()) + gconv.String(rand.Intn(1000))
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	number = gconv.String(time.Now().UnixNano()) + gconv.String(r.Intn(1000))
 	return
 }
 
 func GetRefundNum() (number string) {
-	rand.Seed(time.Now().UnixNano())
-	number = "refund" + gconv.String(time.Now().UnixNano()) + gconv.String(rand.Intn(1000))
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	number = "refund" + gconv.String(time.Now().UnixNano()) + gconv.String(r.Intn(1000))
 	return
 }
