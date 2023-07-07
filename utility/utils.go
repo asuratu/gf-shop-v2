@@ -111,7 +111,7 @@ func GetCityByIp(ip string) string {
 	}
 }
 
-// 日期字符串转时间戳（秒）
+// StrToTimestamp 日期字符串转时间戳（秒）
 func StrToTimestamp(dateStr string) int64 {
 	tm, err := gtime.StrToTime(dateStr)
 	if err != nil {

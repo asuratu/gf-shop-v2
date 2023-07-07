@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/gogf/gf/contrib/drivers/mysql/v2 v2.4.4
 	github.com/gogf/gf/v2 v2.4.4
-	github.com/golang-module/carbon/v2 v2.2.3
+	// github.com/golang-module/carbon/v2 v2.2.3
 	github.com/qiniu/go-sdk/v7 v7.17.0
 )
 
