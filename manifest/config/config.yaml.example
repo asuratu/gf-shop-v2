@@ -16,8 +16,9 @@ database:
     ctxKeys: ["RequestId"]
 
   default:
-    link:   "mysql:root:@tcp(127.0.0.1:3306)/gf-shop-v2"
+    link:   "mysql:root:@tcp(127.0.0.1:3306)/gf-shop"
     debug:  true
+    time_zone: "Asia/Shanghai"
 
 # Redis 配置示例
 redis:

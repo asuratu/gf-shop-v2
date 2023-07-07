@@ -18,7 +18,7 @@ gfcli:
   # dao生成
   gen:
     dao:
-      - link: "mysql:root:@tcp(127.0.0.1:3306)/gf-shop-v2"
+      - link: "mysql:root:@tcp(127.0.0.1:3306)/gf-shop"
         removePrefix: "gf_"
         descriptionTag: true
         noModelComment: true
