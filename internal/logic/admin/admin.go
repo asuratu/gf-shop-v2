@@ -3,17 +3,16 @@ package position
 import (
 	"context"
 
-	"github.com/gogf/gf/v2/database/gdb"
-	"github.com/gogf/gf/v2/frame/g"
-	"github.com/gogf/gf/v2/util/grand"
-
 	"shop/internal/dao"
 	"shop/internal/model"
 	"shop/internal/model/entity"
 	"shop/internal/service"
 	"shop/utility"
 
+	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/encoding/ghtml"
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/util/grand"
 )
 
 type sAdmin struct{}
