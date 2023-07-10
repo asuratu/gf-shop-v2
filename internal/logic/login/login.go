@@ -22,28 +22,37 @@ func New() *sLogin {
 	return &sLogin{}
 }
 
-// Login 添加管理员
-func (s *sLogin) Login(ctx context.Context, in model.AdminLoginInput) (err error) {
+// LoginByPassword Login 执行登录
+func (s *sLogin) LoginByPassword(ctx context.Context, in model.AdminLoginInput) (out *model.AdminLoginOutput, err error) {
 	// 根据用户名获取管理员信息
 	adminInfo := entity.AdminInfo{}
 	err = dao.AdminInfo.Ctx(ctx).Where(dao.AdminInfo.Columns().Name, in.Name).Scan(&adminInfo)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	// 验证密码是否正确
 	if adminInfo.Password != utility.EncryptPassword(in.Password, adminInfo.UserSalt) {
-		return gerror.New("密码错误")
+		return nil, gerror.New("密码错误")
 	}
 
-	if err := service.Session().SetUser(ctx, &adminInfo); err != nil {
-		return err
+	user := &model.AdminLoginOutput{
+		Id:      adminInfo.Id,
+		Name:    adminInfo.Name,
+		RoleIds: adminInfo.RoleIds,
+		IsAdmin: uint8(adminInfo.IsAdmin),
 	}
-	// 自动更新上线 for session
+
+	// 设置session
+	if err := service.Session().SetUser(ctx, user); err != nil {
+		return nil, err
+	}
+
+	// 自动更新上下文
 	service.BizCtx().SetUser(ctx, &model.ContextUser{
 		Id:      uint(adminInfo.Id),
 		Name:    adminInfo.Name,
 		IsAdmin: uint8(adminInfo.IsAdmin),
 	})
-	return nil
 
+	return user, nil
 }

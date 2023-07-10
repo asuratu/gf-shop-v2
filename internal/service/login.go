@@ -12,7 +12,7 @@ import (
 
 type (
 	ILogin interface {
-		Login(ctx context.Context, in model.AdminLoginInput) (err error)
+		LoginByPassword(ctx context.Context, in model.AdminLoginInput) (out *model.AdminLoginOutput, err error)
 	}
 )
 

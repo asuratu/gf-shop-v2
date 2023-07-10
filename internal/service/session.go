@@ -7,13 +7,13 @@ package service
 
 import (
 	"context"
-	"shop/internal/model/entity"
+	"shop/internal/model"
 )
 
 type (
 	ISession interface {
-		SetUser(ctx context.Context, user *entity.AdminInfo) error
-		GetUser(ctx context.Context) *entity.AdminInfo
+		SetUser(ctx context.Context, user *model.AdminLoginOutput) error
+		GetUser(ctx context.Context) (user *model.AdminLoginOutput)
 		RemoveUser(ctx context.Context) error
 	}
 )

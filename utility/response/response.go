@@ -11,7 +11,6 @@ type JsonRes struct {
 	Code    int         `json:"code"` // 错误码((0:成功, 1:失败, >1:错误码))
 	Message string      `json:"msg"`  // 提示信息
 	Data    interface{} `json:"data"` // 返回数据(业务接口定义具体数据结构)
-	//Redirect string      `json:"redirect"` // 引导客户端跳转到指定路由
 }
 
 // Json 返回标准JSON数据。
@@ -44,12 +43,12 @@ func dataReturn(r *ghttp.Request, code int, req ...interface{}) *JsonRes {
 	if len(req) > 1 {
 		data = req[1]
 	}
-	//msg = GetCodeMsg(code, msg)
+	// msg = GetCodeMsg(code, msg)
 	if code != 1 && !gconv.Bool(r.GetCtxVar("api_code")) {
 		code = 0
 	}
 	response := &JsonRes{
-		//ID:      r.GetCtxVar("RequestId").String(),
+		// ID:      r.GetCtxVar("RequestId").String(),
 		Code:    code,
 		Message: msg,
 		Data:    data,
@@ -64,7 +63,7 @@ func Auth(r *ghttp.Request) {
 	r.Response.WriteJsonExit(res)
 }
 
-// Auth 认证失败 被冻结拉黑
+// AuthBlack Auth 认证失败 被冻结拉黑
 func AuthBlack(r *ghttp.Request) {
 	res := dataReturn(r, 888, "您的账号被冻结拉黑，请联系管理员")
 	r.Response.WriteJsonExit(res)
@@ -80,7 +79,7 @@ func JsonRedirect(r *ghttp.Request, code int, message, redirect string, data ...
 		Code:    code,
 		Message: message,
 		Data:    responseData,
-		//Redirect: redirect,
+		// Redirect: redirect,
 	})
 }
 
@@ -97,7 +96,7 @@ func SuccessWithData(r *ghttp.Request, data interface{}) {
 
 // JsonResponse 数据返回通用JSON数据结构
 type JsonResponse struct {
-	//ID       string      `json:"id"`                 //
+	// ID       string      `json:"id"`                 //
 	Code     int         `json:"code"`               // 错误码((1:成功, 0:失败, >1:错误码))
 	Message  string      `json:"message"`            // 提示信息
 	Data     interface{} `json:"data,omitempty"`     // 返回数据(业务接口定义具体数据结构)
