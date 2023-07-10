@@ -15,6 +15,8 @@ type cLogin struct{}
 
 // Login for jwt
 func (c *cLogin) Login(ctx context.Context, req *backend.LoginDoReq) (res *backend.LoginDoRes, err error) {
+	// fmt.Println("延迟 10 秒")
+	// time.Sleep(10 * time.Second)
 	res = &backend.LoginDoRes{}
 	res.Token, res.Expire = service.Auth().LoginHandler(ctx)
 	return
