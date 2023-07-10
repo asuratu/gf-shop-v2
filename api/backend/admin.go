@@ -37,12 +37,22 @@ type AdminUpdateRes struct{}
 
 // AdminShowReq 管理员详情
 type AdminShowReq struct {
-	g.Meta `path:"/admins/{id}" tags:"Admin" method:"get" summary:"管理员详情"`
-	Id     uint `json:"id" v:"required#请选择需要查询的管理员" dc:"管理员id"`
+	g.Meta  `path:"/admins/{admin_id}" tags:"Admin" method:"get" summary:"管理员详情"`
+	AdminId uint `json:"admin_id" v:"required#请选择需要查询的管理员" dc:"管理员id"`
 }
 type AdminShowRes struct {
 	Id      uint   `json:"id"`       // 管理员id
 	Name    string `json:"name"`     // 管理员名称
 	RoleIds string `json:"role_ids"` // 管理员角色
 	IsAdmin uint   `json:"is_admin"` // 是否是超级管理员 1:是 0:否
+}
+
+// AdminInfoReq 管理员详情
+type AdminInfoReq struct {
+	g.Meta `path:"/admins/info" tags:"Admin" method:"get" summary:"当前管理员详情"`
+}
+type AdminInfoRes struct {
+	Id          int    `json:"id"`
+	IdentityKey string `json:"identity_key"`
+	Payload     string `json:"payload"`
 }

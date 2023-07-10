@@ -3,6 +3,9 @@ package controller
 import (
 	"context"
 
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/util/gconv"
+
 	"shop/api/backend"
 	"shop/internal/model"
 	"shop/internal/service"
@@ -56,7 +59,8 @@ func (a *cAdmin) Update(ctx context.Context, req *backend.AdminUpdateReq) (res *
 
 // Show 管理员详情
 func (a *cAdmin) Show(ctx context.Context, req *backend.AdminShowReq) (res *backend.AdminShowRes, err error) {
-	out, err := service.Admin().Show(ctx, req.Id)
+	g.Dump("req.Id", req.AdminId)
+	out, err := service.Admin().Show(ctx, req.AdminId)
 	if err != nil {
 		return nil, err
 	}
@@ -65,5 +69,14 @@ func (a *cAdmin) Show(ctx context.Context, req *backend.AdminShowReq) (res *back
 		Name:    out.Name,
 		RoleIds: out.RoleIds,
 		IsAdmin: out.IsAdmin,
+	}, nil
+}
+
+// Me 管理员详情
+func (a *cAdmin) Me(ctx context.Context, req *backend.AdminInfoReq) (res *backend.AdminInfoRes, err error) {
+	return &backend.AdminInfoRes{
+		Id:          gconv.Int(service.Auth().GetIdentity(ctx)),
+		IdentityKey: service.Auth().IdentityKey,
+		Payload:     service.Auth().GetPayload(ctx),
 	}, nil
 }

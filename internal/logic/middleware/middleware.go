@@ -67,7 +67,7 @@ func (s *sMiddleware) Ctx(r *ghttp.Request) {
 		customCtx.User = &model.ContextUser{
 			Id:      uint(userEntity.Id),
 			Name:    userEntity.Name,
-			IsAdmin: uint8(userEntity.IsAdmin),
+			IsAdmin: userEntity.IsAdmin,
 		}
 	}
 	// 将自定义的上下文对象传递到模板变量中使用
@@ -83,10 +83,10 @@ func (s *sMiddleware) CORS(r *ghttp.Request) {
 	r.Middleware.Next()
 }
 
-// func (s *sMiddleware) Auth(r *ghttp.Request) {
-// 	service.Auth().MiddlewareFunc()(r)
-// 	r.Middleware.Next()
-// }
+func (s *sMiddleware) Auth(r *ghttp.Request) {
+	service.Auth().MiddlewareFunc()(r)
+	r.Middleware.Next()
+}
 
 // var GToken *gtoken.GfToken
 

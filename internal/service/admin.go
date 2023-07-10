@@ -16,6 +16,7 @@ type (
 		Delete(ctx context.Context, id uint) error
 		Update(ctx context.Context, in model.AdminUpdateInput) error
 		Show(ctx context.Context, id uint) (out model.AdminShowOutput, err error)
+		GetAdminByNamePassword(ctx context.Context, in model.AdminLoginInput) map[string]interface{}
 	}
 )
 

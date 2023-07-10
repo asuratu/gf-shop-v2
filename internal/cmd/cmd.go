@@ -26,20 +26,15 @@ var (
 				)
 				// 不需要登录的路由组绑定
 				group.Bind(
-				// controller.Admin.Create, // 管理员
-				// controller.Login,        // 登录
+					controller.Rotation, // 轮播图
+					controller.Position, // 手工位
+					controller.Login,    // 管理员
 				)
 				// 需要登录的路由组绑定
 				group.Group("/", func(group *ghttp.RouterGroup) {
-					// err := gfAdminToken.Middleware(ctx, group)
-					// if err != nil {
-					// 	panic(err)
-					// }
+					group.Middleware(service.Middleware().Auth)
 					group.Bind(
-						controller.Rotation, // 轮播图
-						controller.Position, // 手工位
-						controller.Admin,    // 管理员
-						controller.Login,    // 管理员
+						controller.Admin, // 管理员
 					)
 				})
 			})

@@ -4,10 +4,12 @@ import (
 	"context"
 
 	"github.com/gogf/gf/v2/database/gdb"
+	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/util/grand"
 
 	"shop/internal/dao"
 	"shop/internal/model"
+	"shop/internal/model/entity"
 	"shop/internal/service"
 	"shop/utility"
 
@@ -86,4 +88,21 @@ func (s *sAdmin) Update(ctx context.Context, in model.AdminUpdateInput) error {
 func (s *sAdmin) Show(ctx context.Context, id uint) (out model.AdminShowOutput, err error) {
 	err = dao.AdminInfo.Ctx(ctx).Where(dao.AdminInfo.Columns().Id, id).Scan(&out)
 	return
+}
+
+func (s *sAdmin) GetAdminByNamePassword(ctx context.Context, in model.AdminLoginInput) map[string]interface{} {
+	// 验证账号密码是否正确
+	adminInfo := entity.AdminInfo{}
+	err := dao.AdminInfo.Ctx(ctx).Where("name", in.Name).Scan(&adminInfo)
+	if err != nil {
+		return nil
+	}
+	if utility.EncryptPassword(in.Password, adminInfo.UserSalt) != adminInfo.Password {
+		return nil
+	} else {
+		return g.Map{
+			"id":       adminInfo.Id,
+			"username": adminInfo.Name,
+		}
+	}
 }
