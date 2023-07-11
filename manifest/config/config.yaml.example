@@ -2,6 +2,9 @@ server:
   address:     ":8199"
   openapiPath: "/api.json"
   swaggerPath: "/swagger"
+  dumpRouterMap: false
+  graceful: true
+  gracefulTimeout: 10
 
 logger:
   level : "all"
@@ -16,9 +19,9 @@ database:
     ctxKeys: ["RequestId"]
 
   default:
-    link:   "mysql:root:@tcp(127.0.0.1:3306)/gf-shop"
+    link:   "mysql:root:@tcp(127.0.0.1:3306)/gf-shop?loc=Local" # loc=Local 时区设置为本地时区
     debug:  true
-    time_zone: "Asia/Shanghai"
+#    time_zone: "Asia/Shanghai"
 
 # Redis 配置示例
 redis:
