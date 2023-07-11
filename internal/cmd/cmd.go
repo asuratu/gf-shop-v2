@@ -36,16 +36,17 @@ var (
 
 			// 启动gtoken
 			gfAdminToken := &gtoken.GfToken{
-				CacheMode:       2,
-				ServerName:      "shop",
-				LoginPath:       "/login",
-				LoginBeforeFunc: loginFunc,
-				LoginAfterFunc:  loginAfterFunc,
-				LogoutPath:      "/logout",
-				AuthPaths:       g.SliceStr{"/admins/info"},
+				CacheMode:       2,                          // 缓存模式 1:内存 gcache 2:gredis 3:fileCache 默认1
+				EncryptKey:      []byte("1234567890123456"), // 加密key
+				ServerName:      "shop",                     // 服务名称
+				LoginPath:       "/login",                   // 登录路径
+				LoginBeforeFunc: LoginBeforeFunc,            // 登录验证方法
+				LoginAfterFunc:  loginAfterFunc,             // 登录返回方法
+				LogoutPath:      "/logout",                  // 退出路径
+				AuthPaths:       g.SliceStr{"/admins/info"}, //
 				// AuthExcludePaths: g.SliceStr{"/admin/user/info", "/admin/system/user/info"}, // 不拦截路径 /user/info,/system/user/info,/system/user,
-				AuthAfterFunc: authAfterFunc,
-				MultiLogin:    true,
+				AuthAfterFunc: authAfterFunc, // 拦截认证前后调用
+				MultiLogin:    true,          // 是否支持多点登录
 			}
 
 			s.Group("/backend", func(group *ghttp.RouterGroup) {
@@ -93,8 +94,8 @@ var (
 	}
 )
 
-// todo 迁移到合适的位置
-func loginFunc(r *ghttp.Request) (string, interface{}) {
+// LoginBeforeFunc TODO 迁移到合适的位置
+func LoginBeforeFunc(r *ghttp.Request) (string, interface{}) {
 	name := r.Get("name").String()
 	password := r.Get("password").String()
 	ctx := context.TODO()
