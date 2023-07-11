@@ -3,13 +3,12 @@ package data
 import (
 	"context"
 
-	"github.com/gogf/gf/v2/frame/g"
-
 	"shop/internal/dao"
 	"shop/internal/model"
 	"shop/internal/service"
 	"shop/utility"
 
+	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gtime"
 )
 
