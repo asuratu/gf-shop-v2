@@ -59,6 +59,7 @@ var (
 				group.Bind(
 					backend.Rotation, // 轮播图
 					backend.Position, // 手工位
+					backend.Data,     // 数据大屏
 					// jwt 登录
 					// backend.Login,    // 管理员
 				)
@@ -167,7 +168,6 @@ func loginAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 		}
 		response.JsonExit(r, 0, "", data)
 	}
-	return
 }
 
 func authAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
