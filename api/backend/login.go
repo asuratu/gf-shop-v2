@@ -15,11 +15,13 @@ type LoginDoReq struct {
 	Password string `json:"password" v:"required#请输入密码" dc:"密码(明文)"`
 }
 
+// LoginDoRes for jwt
 type LoginDoRes struct {
 	Token  string    `json:"token"`
 	Expire time.Time `json:"expire"`
 }
 
+// LoginRes for gtoken
 type LoginRes struct {
 	Type        string                  `json:"type"`
 	Token       string                  `json:"token"`
