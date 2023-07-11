@@ -120,7 +120,7 @@ func LoginBeforeFunc(r *ghttp.Request) (string, interface{}) {
 	return consts.GTokenAdminPrefix + strconv.Itoa(adminInfo.Id), adminInfo
 }
 
-// todo 迁移到合适的位置
+// TODO 迁移到合适的位置
 // 自定义的登录之后的函数
 func loginAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 	g.Dump("respData:", respData)
@@ -184,6 +184,7 @@ func authAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 		return
 	}
 
+	// 存入上下文, 以便后续使用
 	r.SetCtxVar(consts.CtxAdminId, adminInfo.Id)
 	r.SetCtxVar(consts.CtxAdminName, adminInfo.Name)
 	r.SetCtxVar(consts.CtxAdminIsAdmin, adminInfo.IsAdmin)
