@@ -13,7 +13,10 @@ import (
 
 type (
 	IRole interface {
-		Create(ctx context.Context, in model.RoleCreateInput) (out model.RoleCreateOutput, err error)
+		Create(ctx context.Context, in model.RoleCreateInput) (out model.RoleCreateUpdateOutput, err error)
+		Update(ctx context.Context, in model.RoleUpdateInput) (out model.RoleCreateUpdateOutput, err error)
+		Delete(ctx context.Context, id uint) (err error)
+		GetList(ctx context.Context, in model.RoleGetListInput) (out *model.RoleGetListOutput, err error)
 	}
 )
 
