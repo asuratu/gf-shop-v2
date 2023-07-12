@@ -18,8 +18,7 @@ gfcli:
   # dao生成
   gen:
     dao:
-      - link: "mysql:root:@tcp(127.0.0.1:3306)/gf-shop?loc=Local
+      - link: "mysql:root:@tcp(127.0.0.1:3306)/gf-shop?loc=Local"
         removePrefix: "gf_"
         descriptionTag: true
         noModelComment: true
-        time_zone: "Asia/Shanghai"

@@ -43,6 +43,7 @@ func dataReturn(r *ghttp.Request, code int, req ...interface{}) *JsonRes {
 	if len(req) > 1 {
 		data = req[1]
 	}
+
 	// msg = GetCodeMsg(code, msg)
 	if code != 1 && !gconv.Bool(r.GetCtxVar("api_code")) {
 		code = 0
@@ -59,8 +60,15 @@ func dataReturn(r *ghttp.Request, code int, req ...interface{}) *JsonRes {
 
 // Auth 认证失败
 func Auth(r *ghttp.Request) {
-	res := dataReturn(r, 999, "请登录")
-	r.Response.WriteJsonExit(res)
+	// res := dataReturn(r, 999, "请登录")
+	// g.Dump("res", res)
+	// r.Response.WriteJsonExit(res)
+
+	r.Response.WriteJsonExit(JsonRes{
+		Code:    401,
+		Message: "请登录",
+		Data:    g.Map{},
+	})
 }
 
 // AuthBlack Auth 认证失败 被冻结拉黑

@@ -74,6 +74,7 @@ var (
 					}
 					group.Bind(
 						backend.Admin, // 管理员
+						backend.Role,  // 角色
 					)
 				})
 			})
@@ -174,6 +175,7 @@ func authAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 	g.Dump("respData:", respData)
 	var adminInfo entity.AdminInfo
 	err := gconv.Struct(respData.GetString("data"), &adminInfo)
+	// 认证失败
 	if err != nil {
 		response.Auth(r)
 		return
