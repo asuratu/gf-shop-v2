@@ -125,7 +125,6 @@ func LoginBeforeFunc(r *ghttp.Request) (string, interface{}) {
 // TODO 迁移到合适的位置
 // 自定义的登录之后的函数
 func loginAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
-	g.Dump("respData:", respData)
 	if !respData.Success() {
 		respData.Code = 0
 		r.Response.WriteJson(respData)
@@ -172,7 +171,6 @@ func loginAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 }
 
 func authAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
-	g.Dump("respData:", respData)
 	var adminInfo entity.AdminInfo
 	err := gconv.Struct(respData.GetString("data"), &adminInfo)
 	// 认证失败

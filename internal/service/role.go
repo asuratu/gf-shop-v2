@@ -17,6 +17,8 @@ type (
 		Update(ctx context.Context, in model.RoleUpdateInput) (out model.RoleCreateUpdateOutput, err error)
 		Delete(ctx context.Context, id uint) (err error)
 		GetList(ctx context.Context, in model.RoleGetListInput) (out *model.RoleGetListOutput, err error)
+		AssignPermission(ctx context.Context, in model.RoleAddPermissionInput) (err error)
+		CancelAssignPermission(ctx context.Context, in model.RoleDeletePermissionInput) (err error)
 	}
 )
 

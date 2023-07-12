@@ -42,14 +42,14 @@ type RoleGetListCommonRes struct {
 }
 
 type AddRolePermissionReq struct {
-	g.Meta        `path:"/roles/{role_id}/permissions/{permission_ids}" method:"post" tags:"角色" summary:"角色添加权限接口"`
+	g.Meta        `path:"/roles/{role_id}/permissions" method:"post" tags:"角色" summary:"给角色添加权限"`
 	RoleId        uint   `json:"role_id" desc:"角色id"`
 	PermissionIds []uint `json:"permission_ids" desc:"权限id数组"`
 }
 type AddRolePermissionRes struct{}
 
 type DeletePermissionReq struct {
-	g.Meta        `path:"/roles/{role_id}/permissions/{permission_ids}" method:"delete" tags:"角色" summary:"角色删除权限接口"`
+	g.Meta        `path:"/roles/{role_id}/permissions" method:"delete" tags:"角色" summary:"角色删除权限接口"`
 	RoleId        uint   `json:"role_id" desc:"角色id"`
 	PermissionIds []uint `json:"permission_ids" desc:"权限id数组"`
 }

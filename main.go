@@ -5,6 +5,7 @@ import (
 	"shop/internal/cmd"
 	_ "shop/internal/logic"
 	_ "shop/internal/packed"
+	_ "shop/utility/response"
 
 	_ "github.com/gogf/gf/contrib/drivers/mysql/v2"
 	_ "github.com/gogf/gf/contrib/nosql/redis/v2"

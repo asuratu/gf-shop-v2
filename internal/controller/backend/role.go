@@ -68,3 +68,26 @@ func (c *cRole) List(ctx context.Context, req *backend.RoleGetListCommonReq) (re
 		Total: getListRes.Total,
 	}, nil
 }
+
+// Assign 分配权限
+func (c *cRole) Assign(ctx context.Context, req *backend.AddRolePermissionReq) (res *backend.AddRolePermissionRes, err error) {
+	err = service.Role().AssignPermission(ctx, model.RoleAddPermissionInput{
+		RoleId:        req.RoleId,
+		PermissionIds: req.PermissionIds,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &backend.AddRolePermissionRes{}, nil
+}
+
+func (c *cRole) CancelAssign(ctx context.Context, req *backend.DeletePermissionReq) (res *backend.DeletePermissionRes, err error) {
+	err = service.Role().CancelAssignPermission(ctx, model.RoleDeletePermissionInput{
+		RoleId:        req.RoleId,
+		PermissionIds: req.PermissionIds,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return &backend.DeletePermissionRes{}, nil
+}
