@@ -38,10 +38,11 @@ type RoleGetListInput struct {
 
 // RoleGetListOutput 查询列表结果
 type RoleGetListOutput struct {
-	List  []RoleGetListOutputItem `json:"list" description:"列表"`
-	Page  int                     `json:"page" description:"分页码"`
-	Size  int                     `json:"size" description:"分页数量"`
-	Total int                     `json:"total" description:"数据总数"`
+	// List  []*RoleGetListOutputItem `json:"list" description:"列表"`
+	List  []*RolePermissionAllEntity `json:"list" description:"列表"`
+	Page  int                        `json:"page" description:"分页码"`
+	Size  int                        `json:"size" description:"分页数量"`
+	Total int                        `json:"total" description:"数据总数"`
 }
 
 type RoleGetListOutputItem struct {
@@ -70,11 +71,6 @@ type RoleDeletePermissionInput struct {
 type RoleGetPermissionListInput struct {
 	RoleId uint `json:"role_id"`
 }
-
-//	type RoleGetPermissionListOutput struct {
-//		Role               *BaseRole
-//		RolePermissionList BaseRolePermissionList
-//	}
 type RoleGetPermissionListOutput struct {
 	Role               *BaseRole
 	RolePermissionList []*RolePermissionEntity

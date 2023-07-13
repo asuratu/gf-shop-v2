@@ -59,16 +59,17 @@ func (s *sRole) Delete(ctx context.Context, id uint) (err error) {
 
 // GetList 查询内容列表
 func (s *sRole) GetList(ctx context.Context, in model.RoleGetListInput) (out *model.RoleGetListOutput, err error) {
-	var (
-		m = dao.RoleInfo.Ctx(ctx)
-	)
 	out = &model.RoleGetListOutput{
 		Page: in.Page,
 		Size: in.Size,
 	}
 
+	m := dao.RoleInfo.Ctx(ctx)
+
 	// 分配查询
 	listModel := m.Page(in.Page, in.Size)
+
+	// 使用 ScanList() 方法，可以将查询结果直接转换为指定的结构体切片
 
 	// 执行查询
 	var list []*entity.RoleInfo

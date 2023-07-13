@@ -11,3 +11,10 @@ type RolePermissionEntity struct {
 	RolePermission *BaseRolePermission `json:"role_permission"`
 	Permission     *BasePermission     `json:"permission"`
 }
+
+// RolePermissionAllEntity 适用于查询多个角色的权限列表
+type RolePermissionAllEntity struct {
+	RolePermission *BaseRolePermission `json:"role_permission"`
+	Permission     *BasePermission     `json:"permission"`
+	Role           *BaseRole           `json:"role"`
+}
