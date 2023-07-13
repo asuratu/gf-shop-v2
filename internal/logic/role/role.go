@@ -1,6 +1,7 @@
 package role
 
 import (
+	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/frame/g"
 	"golang.org/x/net/context"
 
@@ -110,4 +111,32 @@ func (s *sRole) CancelAssignPermission(ctx context.Context, in model.RoleDeleteP
 		WhereIn(dao.RolePermissionInfo.Columns().PermissionId, in.PermissionIds).
 		Delete()
 	return nil
+}
+
+// GetPermissionList 获取角色权限列表
+func (s *sRole) GetPermissionList(ctx context.Context, in model.RoleGetPermissionListInput) (out *model.RoleGetPermissionListOutput, err error) {
+	// 1. 获取角色信息
+	out = &model.RoleGetPermissionListOutput{}
+	err = dao.RoleInfo.Ctx(ctx).Where(dao.RoleInfo.Columns().Id, in.RoleId).Scan(&out.Role)
+	if err != nil {
+		return nil, err
+	}
+
+	// 2. 获取角色权限列表, 中间表的数据
+	err = dao.RolePermissionInfo.Ctx(ctx).
+		Where(dao.RolePermissionInfo.Columns().RoleId, out.Role.Id).
+		ScanList(&out.RolePermissionList, "RolePermission")
+	if err != nil {
+		return nil, err
+	}
+
+	// 3. 获取中间表对应的权限列表
+	err = dao.PermissionInfo.Ctx(ctx).
+		Where(dao.PermissionInfo.Columns().Id, gdb.ListItemValuesUnique(out.RolePermissionList, "RolePermission", "PermissionId")).
+		ScanList(&out.RolePermissionList, "Permission", "RolePermission", "id:PermissionId")
+	if err != nil {
+		return nil, err
+	}
+
+	return out, nil
 }

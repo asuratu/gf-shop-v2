@@ -91,3 +91,19 @@ func (c *cRole) CancelAssign(ctx context.Context, req *backend.DeletePermissionR
 	}
 	return &backend.DeletePermissionRes{}, nil
 }
+
+func (c *cRole) GetAssignList(ctx context.Context, req *backend.RoleGetPermissionReq) (res *backend.RoleGetPermissionRes, err error) {
+	// 1. 获取角色信息
+	roleInfo, err := service.Role().GetPermissionList(ctx, model.RoleGetPermissionListInput{
+		RoleId: req.RoleId,
+	})
+	if err != nil {
+		return nil, err
+	}
+	// 赋值
+	return &backend.RoleGetPermissionRes{
+		Role:               roleInfo.Role,
+		RolePermissionList: roleInfo.RolePermissionList,
+	}, nil
+
+}

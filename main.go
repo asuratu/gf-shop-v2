@@ -14,4 +14,5 @@ import (
 
 func main() {
 	cmd.Main.Run(gctx.GetInitCtx())
+	cmd.Mq.Run(gctx.GetInitCtx())
 }

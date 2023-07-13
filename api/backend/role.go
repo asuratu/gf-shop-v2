@@ -1,10 +1,20 @@
 package backend
 
-import "github.com/gogf/gf/v2/frame/g"
+import (
+	"github.com/gogf/gf/v2/frame/g"
+
+	"shop/internal/model"
+)
 
 type RoleCreateUpdateBase struct {
 	Name string `json:"name" v:"required#名称必填" dc:"角色名称"`
 	Desc string `json:"desc" dc:"角色描述"`
+}
+
+type BaseRoleRes struct {
+	Id   uint   `json:"id" desc:"角色id"`
+	Name string `json:"name" desc:"角色名称"`
+	Desc string `json:"desc" desc:"角色描述"`
 }
 
 type RoleReq struct {
@@ -54,3 +64,12 @@ type DeletePermissionReq struct {
 	PermissionIds []uint `json:"permission_ids" desc:"权限id数组"`
 }
 type DeletePermissionRes struct{}
+
+type RoleGetPermissionReq struct {
+	g.Meta `path:"/roles/{role_id}/permissions" method:"get" tags:"角色" summary:"获取角色权限接口"`
+	RoleId uint `json:"role_id" desc:"角色id"`
+}
+type RoleGetPermissionRes struct {
+	Role               *model.BaseRole               `json:"role" desc:"角色信息"`
+	RolePermissionList []*model.RolePermissionEntity `json:"permission_list" desc:"权限列表"`
+}

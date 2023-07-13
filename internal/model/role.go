@@ -8,6 +8,12 @@ type RoleCreateUpdateBase struct {
 	Desc string
 }
 
+type BaseRole struct {
+	Id   uint   `orm:"id,primary" json:"id"`    // 自增ID
+	Name string `orm:"name,unique" json:"name"` // 角色名称
+	Desc string `orm:"desc" json:"desc"`        // 角色描述
+}
+
 // RoleCreateInput 创建内容
 type RoleCreateInput struct {
 	RoleCreateUpdateBase
@@ -58,4 +64,18 @@ type RoleAddPermissionInput struct {
 type RoleDeletePermissionInput struct {
 	RoleId        uint   `json:"role_id"`
 	PermissionIds []uint `json:"permission_ids"`
+}
+
+// RoleGetPermissionListInput 组合模型
+type RoleGetPermissionListInput struct {
+	RoleId uint `json:"role_id"`
+}
+
+//	type RoleGetPermissionListOutput struct {
+//		Role               *BaseRole
+//		RolePermissionList BaseRolePermissionList
+//	}
+type RoleGetPermissionListOutput struct {
+	Role               *BaseRole
+	RolePermissionList []*RolePermissionEntity
 }
