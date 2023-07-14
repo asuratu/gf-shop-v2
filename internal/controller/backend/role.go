@@ -1,7 +1,14 @@
 package backend
 
 import (
+	"encoding/json"
+
+	"github.com/gogf/gf/v2/os/gtime"
+	"github.com/hibiken/asynq"
+
 	"shop/api/backend"
+	"shop/boot/job"
+	"shop/internal/consts"
 	"shop/internal/model"
 	"shop/internal/service"
 
@@ -93,6 +100,23 @@ func (c *cRole) CancelAssign(ctx context.Context, req *backend.DeletePermissionR
 }
 
 func (c *cRole) GetAssignList(ctx context.Context, req *backend.RoleGetPermissionReq) (res *backend.RoleGetPermissionRes, err error) {
+	// 1. 测试 Asynq 消息队列
+	payload, err := json.Marshal(job.TestQueuePayload{
+		Name: "test",
+		Time: gtime.Now(),
+	})
+
+	if err != nil {
+		return nil, err
+	}
+	_, err = job.AsynqClient.Enqueue(
+		asynq.NewTask(consts.JobTestQueue, payload),
+		asynq.MaxRetry(3), // 最大重试次数
+	)
+	if err != nil {
+		return nil, err
+	}
+
 	// 1. 获取角色信息
 	roleInfo, err := service.Role().GetPermissionList(ctx, model.RoleGetPermissionListInput{
 		RoleId: req.RoleId,

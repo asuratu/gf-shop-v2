@@ -2,9 +2,11 @@ package cmd
 
 import (
 	"context"
+	"os"
 	"strconv"
 
 	apiBackend "shop/api/backend"
+	"shop/boot/job"
 	"shop/internal/consts"
 	"shop/internal/controller/backend"
 	"shop/internal/controller/frontend"
@@ -29,6 +31,21 @@ var (
 		Brief: "start http server",
 		Func: func(ctx context.Context, parser *gcmd.Parser) (err error) {
 			s := g.Server()
+
+			// 初始化 AsynqServer
+			job.AsynqServer = job.NewAsynqServer(ctx)
+
+			// 初始化 AsynqClient
+			job.AsynqClient = job.NewAsynqClient(ctx)
+
+			cronJob := job.NewCronJob(ctx)
+			mux := cronJob.Register()
+
+			go func() {
+				if err := job.AsynqServer.Run(mux); err != nil {
+					os.Exit(1)
+				}
+			}()
 
 			// 优雅重启、关闭
 			// 访问: http://127.0.0.1:8199/debug/admin
