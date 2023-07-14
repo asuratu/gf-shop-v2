@@ -6,6 +6,7 @@ import (
 
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/hibiken/asynq"
 )
 
@@ -25,5 +26,6 @@ func (l *TestQueueHandler) ProcessTask(ctx context.Context, t *asynq.Task) error
 	}
 	g.Log().Infof(ctx, "-----------------> handle test queue jobsvc , payload: %+v", p)
 	g.Dump(p)
+	g.Dump(gtime.Now().String())
 	return nil
 }

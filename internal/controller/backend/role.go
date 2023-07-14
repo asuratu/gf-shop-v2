@@ -2,6 +2,7 @@ package backend
 
 import (
 	"encoding/json"
+	"time"
 
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/hibiken/asynq"
@@ -109,9 +110,11 @@ func (c *cRole) GetAssignList(ctx context.Context, req *backend.RoleGetPermissio
 	if err != nil {
 		return nil, err
 	}
+	// 2. 延迟 10 秒执行, 优先级为 critical
 	_, err = job.AsynqClient.Enqueue(
 		asynq.NewTask(consts.JobTestQueue, payload),
-		asynq.MaxRetry(3), // 最大重试次数
+		asynq.ProcessIn(time.Second*10), // 10s 超时
+		asynq.Queue("critical"),         // 优先级
 	)
 	if err != nil {
 		return nil, err
