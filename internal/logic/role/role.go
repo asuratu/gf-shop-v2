@@ -7,7 +7,6 @@ import (
 
 	"shop/internal/dao"
 	"shop/internal/model"
-	"shop/internal/model/entity"
 	"shop/internal/service"
 )
 
@@ -57,7 +56,7 @@ func (s *sRole) Delete(ctx context.Context, id uint) (err error) {
 	return err
 }
 
-// GetList 查询内容列表
+// GetList 查询内容列表, 多对多的实现思路
 func (s *sRole) GetList(ctx context.Context, in model.RoleGetListInput) (out *model.RoleGetListOutput, err error) {
 	out = &model.RoleGetListOutput{
 		Page: in.Page,
@@ -69,25 +68,33 @@ func (s *sRole) GetList(ctx context.Context, in model.RoleGetListInput) (out *mo
 	// 分配查询
 	listModel := m.Page(in.Page, in.Size)
 
-	// 使用 ScanList() 方法，可以将查询结果直接转换为指定的结构体切片
-
-	// 执行查询
-	var list []*entity.RoleInfo
-	if err := listModel.Scan(&list); err != nil {
-		return out, err
-	}
-	// 没有数据
-	if len(list) == 0 {
-		return out, nil
-	}
 	out.Total, err = m.Count()
 	if err != nil {
 		return out, err
 	}
-	// 不指定item的键名用：Scan
-	if err := listModel.Scan(&out.List); err != nil {
+
+	// 查询角色
+	if err := listModel.ScanList(&out.List, "Role"); err != nil {
 		return out, err
 	}
+
+	if g.IsNil(out.List) {
+		out.List = make([]*model.RolePermissionAllEntity, 0)
+	}
+
+	// 查询角色权限
+	if err := dao.RolePermissionInfo.Ctx(ctx).
+		Where(dao.RolePermissionInfo.Columns().RoleId, gdb.ListItemValuesUnique(out.List, "Role", "Id")).
+		RightJoin("permission_info", "permission_info.id = role_permission_info.permission_id").
+		Fields("role_permission_info.id, "+
+			"role_permission_info.role_id, "+
+			"role_permission_info.permission_id, "+
+			"permission_info.name as permission_name, "+
+			"permission_info.path as permission_path").
+		ScanList(&out.List, "RolePermission", "Role", "role_id:Id"); err != nil {
+		return out, err
+	}
+
 	return
 }
 
@@ -114,7 +121,7 @@ func (s *sRole) CancelAssignPermission(ctx context.Context, in model.RoleDeleteP
 	return nil
 }
 
-// GetPermissionList 获取角色权限列表
+// GetPermissionList 获取角色权限列表, 一对多的实现思路
 func (s *sRole) GetPermissionList(ctx context.Context, in model.RoleGetPermissionListInput) (out *model.RoleGetPermissionListOutput, err error) {
 	// 1. 获取角色信息
 	out = &model.RoleGetPermissionListOutput{}
