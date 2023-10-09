@@ -12,21 +12,11 @@ import (
 	"shop/internal/service"
 )
 
-// Controller 的作用是 承上启下  mvc
-
 // Admin 内容管理
 var Admin = cAdmin{}
 
 type cAdmin struct{}
 
-// Create
-//
-//	@Description:
-//	@receiver a
-//	@param ctx
-//	@param req
-//	@return res
-//	@return err
 func (a *cAdmin) Create(ctx context.Context, req *backend.AdminReq) (res *backend.AdminRes, err error) {
 	out, err := service.Admin().Create(ctx, model.AdminCreateInput{
 		AdminCreateUpdateBase: model.AdminCreateUpdateBase{

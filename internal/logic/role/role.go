@@ -37,7 +37,7 @@ func (s *sRole) Update(ctx context.Context, in model.RoleUpdateInput) (out model
 	// 更新数据
 	_, err = dao.RoleInfo.Ctx(ctx).
 		Data(in).
-		OmitEmpty().
+		OmitEmpty(). // 忽略空值
 		Where(dao.RoleInfo.Columns().Id, in.Id).
 		Update()
 	if err != nil {
