@@ -30,3 +30,4 @@ redis:
     db: 1
     pass:
     idleTimeout: 600
+    jobDb: 2

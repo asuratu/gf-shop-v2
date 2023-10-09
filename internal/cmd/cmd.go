@@ -113,7 +113,7 @@ var (
 	}
 )
 
-// LoginBeforeFunc TODO 迁移到合适的位置
+// TODO 迁移到合适的位置
 func LoginBeforeFunc(r *ghttp.Request) (string, interface{}) {
 	name := r.Get("name").String()
 	password := r.Get("password").String()
@@ -140,7 +140,6 @@ func LoginBeforeFunc(r *ghttp.Request) (string, interface{}) {
 }
 
 // TODO 迁移到合适的位置
-// 自定义的登录之后的函数
 func loginAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 	if !respData.Success() {
 		respData.Code = 0
@@ -187,6 +186,7 @@ func loginAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 	}
 }
 
+// TODO 迁移到合适的位置
 func authAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 	var adminInfo entity.AdminInfo
 	err := gconv.Struct(respData.GetString("data"), &adminInfo)

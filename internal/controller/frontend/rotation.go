@@ -15,7 +15,14 @@ var Rotation = cRotation{}
 
 type cRotation struct{}
 
-// Index 轮播图列表
+// Index
+//
+//	@Description: 轮播图列表
+//	@receiver a
+//	@param ctx
+//	@param req
+//	@return res
+//	@return err
 func (a *cRotation) Index(ctx context.Context, req *backend.RotationPageListReq) (res *backend.RotationPageListRes, err error) {
 	list, err := service.Rotation().GetList(ctx, model.RotationPageListInput{
 		Sort: req.Sort,
