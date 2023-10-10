@@ -2,7 +2,7 @@ package consts
 
 const (
 	ProjectName        = "Go电商实战项目"
-	ProjectUsage       = "演示学习使用"
+	ProjectUsage       = "学习使用"
 	ProjectBrief       = "start http server"
 	Version            = "v0.2.0"             // 当前服务版本(用于模板展示)
 	CaptchaDefaultName = "CaptchaDefaultName" // 验证码默认存储空间名称
