@@ -10,4 +10,4 @@ git add .
 git commit -m "$CONTENT"
 git push
 
-echo -e "\033[32m代码推送成功!\033[0m"
+echo "\033[32m代码推送成功!\033[0m"
