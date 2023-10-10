@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"time"
 
+	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gtime"
 	"github.com/hibiken/asynq"
 
@@ -106,6 +107,8 @@ func (c *cRole) GetAssignList(ctx context.Context, req *backend.RoleGetPermissio
 		Name: "test",
 		Time: gtime.Now(),
 	})
+
+	g.Dump(payload)
 
 	if err != nil {
 		return nil, err

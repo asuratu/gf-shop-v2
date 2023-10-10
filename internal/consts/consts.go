@@ -1,7 +1,7 @@
 package consts
 
 const (
-	ProjectName        = "Go开源电商实战项目"
+	ProjectName        = "Go电商实战项目"
 	ProjectUsage       = "演示学习使用"
 	ProjectBrief       = "start http server"
 	Version            = "v0.2.0"             // 当前服务版本(用于模板展示)

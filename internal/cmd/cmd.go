@@ -60,7 +60,7 @@ var (
 				LoginBeforeFunc: LoginBeforeFunc,            // 登录验证方法
 				LoginAfterFunc:  loginAfterFunc,             // 登录返回方法
 				LogoutPath:      "/logout",                  // 退出路径
-				AuthPaths:       g.SliceStr{"/admins/info"}, //
+				AuthPaths:       g.SliceStr{"/admins/info"}, // 拦截路径
 				// AuthExcludePaths: g.SliceStr{"/admin/user/info", "/admin/system/user/info"}, // 不拦截路径 /user/info,/system/user/info,/system/user,
 				AuthAfterFunc: authAfterFunc, // 拦截认证前后调用
 				MultiLogin:    true,          // 是否支持多点登录

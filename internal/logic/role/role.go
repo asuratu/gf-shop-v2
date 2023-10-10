@@ -31,6 +31,17 @@ func (s *sRole) Create(ctx context.Context, in model.RoleCreateInput) (out model
 	return model.RoleCreateUpdateOutput{RoleId: uint(lastInsertID)}, err
 }
 
+func (s *sRole) Create1(ctx context.Context, in model.RoleCreateInput) (out model.RoleCreateUpdateOutput, err error) {
+	// TODO: 判断角色是否存在
+
+	// 插入数据返回id
+	lastInsertID, err := dao.RoleInfo.Ctx(ctx).Data(in).InsertAndGetId()
+	if err != nil {
+		return out, err
+	}
+	return model.RoleCreateUpdateOutput{RoleId: uint(lastInsertID)}, err
+}
+
 func (s *sRole) Update(ctx context.Context, in model.RoleUpdateInput) (out model.RoleCreateUpdateOutput, err error) {
 	// TODO: 判断角色是否存在
 
